@@ -1,0 +1,30 @@
+{
+  "name": "crud-library-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js",
+    "lint": "eslint src/**",
+    "start:dev": "nodemon --exec 'npm run lint && node ./src/index.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camilamkp/CRUD-library-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/camilamkp/CRUD-library-project/issues"
+  },
+  "homepage": "https://github.com/camilamkp/CRUD-library-project#readme",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
