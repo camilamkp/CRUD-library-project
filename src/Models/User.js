@@ -1,24 +1,27 @@
+require('dotenv').config();
 const { Schema, model } = require('mongoose');
+const crypto = require('crypto');
 
 // to generate a secret_token:
-// const crypto = require('crypto');
 // console.log(crypto.randomBytes(64).toString('hex'));
 
+const secret = process.env.SECRET_TOKEN;
+const { detailsSchema } = require('./UserDetail.js');
 const userSchema = new Schema(
     {
-        username: String,
-        password: String,
-        admin: {
-            type: Boolean,
-            default: false
-        } 
+        firstName: { type: String, trim: true },
+        lastName: String,
+        username: { type: String, unique: true, required: true },
+        password: { type: String, required: true },
+        admin: { type: Boolean, default: false },
+        details: detailsSchema 
     },
     { timestamps: true }
 );
 
 userSchema.methods.hashPassword = (password) =>
 {
-    const hash = crypto.createHmac('sha256', process.env.SECRET_TOKEN).update(password).digest('hex');
+    const hash = crypto.createHmac('sha256', secret).update(password).digest('hex');
     return hash;
 };
 
