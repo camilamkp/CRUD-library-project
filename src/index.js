@@ -18,6 +18,10 @@ app.use(bodyParser.json());
 
 // routes
 app.use('/users', usersRouter);
+// app.use('*', errors);
+// endpoints
+// 
+//
 
 app.listen(port, () =>
 {
