@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const { authUser, adminUser } = require('../middleware/userRoles.js');
 
-const upload = multer(
-    {
-        limits:
-        { fileSize: 50000000 }
-    });
+// const upload = multer(
+//     {
+//         limits:
+//         { fileSize: 50000000 }
+//     });
 
 const {
     allBooks,
@@ -18,7 +19,8 @@ const {
 
 router.route('/')
     .get(allBooks)
-    .post(upload.single('cover'), addBook );
+    // .post(authUser, upload.single('cover'), addBook );
+    .post(authUser, addBook );
 
 router.route('/:id')
     .get(oneBook)
