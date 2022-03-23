@@ -5,11 +5,10 @@ exports.authUser = (req, res, next) =>
 {
     try
     {
-        const authHeader = req.headers[ 'authorization' ];
-        const token = authHeader && authHeader.split(' ')[ 1 ] ;
+        let token = req.cookies.access_token;
         const decodedData = jwt.verify(token, process.env.SECRET_TOKEN);
 
-        console.log(authHeader);
+        console.log(token);
         console.log(decodedData);
         next();
     }
