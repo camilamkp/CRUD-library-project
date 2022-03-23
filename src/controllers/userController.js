@@ -119,7 +119,10 @@ exports.update = (req, res) =>
     if(!user) throw new Error('user not found!')
 };
 // DELETE :ID
-
+exports.delete = (req, res) =>
+{
+    
+}
 // POST
 exports.login = (req, res) =>
 {
