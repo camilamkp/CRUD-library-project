@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const usersRouter = require('./routes/users.js');
-const { setCors } = require('./middleware/cors.js')
+const booksRouter = require('./routes/books.js');
+const { setCors } = require('./middleware/cors.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ app.use(setCors);
 
 // routes
 app.use('/users', usersRouter);
+app.use('/books', booksRouter);
 // app.use('*', errors);
 // endpoints
 // 
