@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { authUser, adminUser } = require('../middleware/userRoles.js');
 
-
 const { 
     allUsers, 
     create, 
     oneUser, 
+    update,
     login 
 } = require('../controllers/userController.js');
 
@@ -18,7 +18,7 @@ router.route('/')
 
 router.route('/:id')
     .get(authUser, oneUser)
-    .put(authUser)
+    .put(authUser, update)
     .delete(authUser);
 
 router.route('/login')
