@@ -22,6 +22,6 @@ router.route('/:id')
     .delete(authUser);
 
 router.route('/login')
-    .post(isValidUser, login);
+    .post(login);
 
 module.exports = router;
