@@ -3,8 +3,7 @@ const validator = require('express-validator');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/User.js');
 
-// CREATE
-// READ
+// GET
 exports.allUsers = (req, res) =>
 {
     User.find( {}, (err, users) =>
@@ -24,6 +23,7 @@ exports.allUsers = (req, res) =>
     });
 };
 
+// POST
 exports.create = (req, res) =>
 {
     const {
@@ -50,6 +50,14 @@ exports.create = (req, res) =>
     } = req.body;
 
     newUser.password = newUser.hashPassword(password);
+    const errors = validator.validationResult(req).errors;
+    console.log(errors);
+
+    if(errors.length > 0)
+    {
+        return res.status(400).json({ errors });
+    }
+    console.log(newUser);
     newUser.save().then((user) =>
     {
         return res.status(200).json({
@@ -60,6 +68,27 @@ exports.create = (req, res) =>
     });
 };
 
+// GET :ID
+exports.oneUser = (req, res) =>
+{
+    const { id } = req.params;
+    const user = User.findById(id);
+    if(!user)throw new Error('not found');
+    res.status(200).json({
+        success: true,
+        data: user,
+    });
+};
+
+// POST :ID
+exports.update = (req, res) =>
+{
+
+};
+
+// PUT :ID
+
+// POST
 exports.login = (req, res) =>
 {
     const { username, password } = req.body;
