@@ -9,7 +9,7 @@ const imageSchema = new Schema({
 { _id : false });
 
 const bookSchema = new Schema({
-    ISBN: Number,
+    ISBN: { type:Number, required: true, unique: true },
     title: String,
     author: String,
     originalSprache: String,
@@ -26,6 +26,6 @@ const bookSchema = new Schema({
 },
 { timestamps: true });
 
-const bookModel = new Model('Book', bookSchema, 'books');
+const bookModel = new model('Book', bookSchema, 'books');
 
 module.exports = bookModel;
