@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
+// const multer = require('multer');
 const { authUser, adminUser } = require('../middleware/userRoles.js');
 
 // const upload = multer(
@@ -20,11 +20,11 @@ const {
 router.route('/')
     .get(allBooks)
     // .post(authUser, upload.single('cover'), addBook );
-    .post(authUser, addBook );
+//     .post(authUser, addBook );
 
-router.route('/:id')
-    .get(oneBook)
-    .put(editBook)
-    .delete(deleteBook);
+// router.route('/:id')
+//     .get(oneBook)
+//     .put(authUser, editBook)
+//     .delete(authUser, deleteBook);
 
 module.exports = router;
