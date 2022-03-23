@@ -1,18 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const { authUser, adminUser } = require('../middleware/userRoles.js');
 
-const { allUsers, create, login } = require('../controllers/userController.js');
+
+const { 
+    allUsers, 
+    create, 
+    oneUser, 
+    login 
+} = require('../controllers/userController.js');
+
+const isValidUser = require('../validation/userValidation.js');
 
 router.route('/')
-    .get(allUsers)
-    .post(create);
+    .get(authUser, adminUser, allUsers)
+    .post(isValidUser, create);
 
 router.route('/:id')
-    .get()
-    .put()
-    .delete();
+    .get(authUser, oneUser)
+    .put(authUser)
+    .delete(authUser);
 
 router.route('/login')
-    .post(login);
+    .post(isValidUser, login);
 
 module.exports = router;
