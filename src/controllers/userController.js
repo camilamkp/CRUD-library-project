@@ -125,62 +125,63 @@ exports.login = (req, res) =>
 {
     const { username, password } = req.body;
 
-    const error = validator.validationResult(req).errors;
-
-    if(error.length > 0)
+    const token = jwt.sign({ username, password, admin: "true" }, process.env.SECRET_TOKEN);
+    return res.cookie('access_token', token,
     {
-        return res.status(400)
-            .json({
-                success: false,
-                message: error.map(err => err.message)
-            });
-    }
+        httpOnly: true,
+        maxAge: 24 * 60 * 60
+    })
+    .status(200)
+    .json({
+        success: true,
+        message: 'User ' + username + ' eingeloggt!'
+    });
 
-    const signAccessToken = jwt.sign({
-        username: userLastLogin.username,
-        userId: userLastLogin._id
-    }, process.env.SECRET_TOKEN, { expiresIn: '24h' });
+    // const signAccessToken = jwt.sign({
+    //     username: userLastLogin.username,
+    //     userId: userLastLogin._id
+    // }, process.env.SECRET_TOKEN, { expiresIn: '24h' });
 
-    User.findOne({ username })
-        .then(foundUser =>
-        {
-            if(foundUser)
-            {
-                if(foundUser.comparePassword(password))
-                {
-                    foundUser.lastLogin = new Date();
-                    const oneDay = 24 * 60 * 60;
-                    foundUser.save()
-                        .then(user =>
-                        {
-                            res.status(200)
-                                .cookie('access_token', token, 
-                                    {
-                                        httpOnly: true,
-                                        maxAge: oneDay
-                                    })
-                                .json({
-                                    success: true,
-                                    token: signAccessToken({ username }),
-                                    message: `Hey ${ userLastLogin.username }, you're logged in!`,
-                                    user
-                                });
-                        });
-                }
-                else
-                {
-                    res.status(401).json({
-                        success: false,
-                        message: [ 'Please enter a valid Username and Password' ]
-                    });
-                }
-            }
-            else
-            {
-                res.status(404).json({
-                    success: false,
-                    message: [ 'User not found. Please sign in.' ]
-                });
-            }
-        });
+    // User.findOne({ username })
+    //     .then(foundUser =>
+    //     {
+    //         if(foundUser)
+    //         {
+    //             if(foundUser.comparePassword(password))
+    //             {
+    //                 foundUser.lastLogin = new Date();
+    //                 const oneDay = 24 * 60 * 60;
+    //                 foundUser.save()
+    //                     .then(user =>
+    //                     {
+    //                         res.status(200)
+    //                             .cookie('access_token', token, 
+    //                                 {
+    //                                     httpOnly: true,
+    //                                     maxAge: oneDay
+    //                                 })
+    //                             .json({
+    //                                 success: true,
+    //                                 token: signAccessToken({ username }),
+    //                                 message: `Hey ${ userLastLogin.username }, you're logged in!`,
+    //                                 user
+    //                             });
+    //                     });
+    //             }
+    //             else
+    //             {
+    //                 res.status(401).json({
+    //                     success: false,
+    //                     message: [ 'Please enter a valid Username and Password' ]
+    //                 });
+    //             }
+    //         }
+    //         else
+    //         {
+    //             res.status(404).json({
+    //                 success: false,
+    //                 message: [ 'User not found. Please sign in.' ]
+    //             });
+    //         }
+    //     });
 };
