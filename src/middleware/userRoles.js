@@ -3,35 +3,43 @@ const jwt = require('jsonwebtoken');
 
 exports.authUser = (req, res, next) =>
 {
+    const token = req.cookies.access_token;
+
+    if(!token)
+    {
+        res.sendStatus(403);
+    };
+
     try
     {
-        let token = req.cookies.access_token;
-        const decodedData = jwt.verify(token, process.env.SECRET_TOKEN);
-
-        console.log(token);
-        console.log(decodedData);
+        const verifyData = jwt.verify(token, process.env.SECRET_TOKEN);
+        req.tokenUser = verifyData.userId;
         next();
     }
-    catch(err)
-    {
-        res.status(401).json({ message: 'User not authorized!' });
-    }
+    catch(e)
+    { 
+        res.status(401).json({ 
+            success:false,
+            message: 'You are not logged in!' 
+        });
+    };
+
 };
 
+// ein Problem hier zu lösen:
 exports.adminUser = (req, res, next) =>
 {
-    try 
+    try
     {
-        console.log(req.body);
-        if(req.body.admin)
+        if(req.body.admin === true)
         {
             console.log(req.body);
             next();
         }
-        else throw Error('Sorry, you are not an Admin.');
-    } 
-    catch (err)
+        else throw new Error('User not admin');
+    }
+    catch (e)
     {
-        next(err);
+        next(e);
     }
 };

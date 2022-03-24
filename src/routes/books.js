@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
+// const express = require('express');
+// const router = express.Router();
 // const multer = require('multer');
-const { authUser, adminUser } = require('../middleware/userRoles.js');
+// // const { authUser, adminUser } = require('../middleware/userRoles.js');
 
 // const upload = multer(
 //     {
@@ -9,22 +9,22 @@ const { authUser, adminUser } = require('../middleware/userRoles.js');
 //         { fileSize: 50000000 }
 //     });
 
-const {
-    allBooks,
-    addBook,
-    oneBook,
-    editBook,
-    deleteBook
-} = require('../controllers/booksController.js');
+// const {
+//     allBooks,
+//     addBook,
+//     oneBook,
+//     editBook,
+//     deleteBook
+// } = require('../controllers/booksController.js');
 
-router.route('/')
-    .get(allBooks)
-    // .post(authUser, upload.single('cover'), addBook );
-//     .post(authUser, addBook );
+// router.route('/')
+//     .get(allBooks)
+//     .post(upload.single('cover'), addBook );
+// //     .post(addBook);
 
-// router.route('/:id')
-//     .get(oneBook)
-//     .put(authUser, editBook)
-//     .delete(authUser, deleteBook);
+// // router.route('/:id')
+// //     .get(oneBook)
+// //     .put(editBook)
+// //     .delete(deleteBook);
 
-module.exports = router;
+// module.exports = router;

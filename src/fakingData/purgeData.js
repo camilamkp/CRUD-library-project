@@ -9,6 +9,7 @@ const chance = new Chance();
 
 mongoose.connect(databaseURL, { useNewUrlParser: true });
 
+// deleting EVERYTHING!!!!!
 const purgeFakeData = async () =>
 {
     try

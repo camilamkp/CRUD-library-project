@@ -27,8 +27,6 @@ app.use('/users', usersRouter);
 app.use('/books', booksRouter);
 // app.use('*', errors);
 // endpoints
-// 
-//
 
 app.listen(port, () =>
 {

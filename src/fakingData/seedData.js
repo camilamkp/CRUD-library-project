@@ -70,6 +70,7 @@ const creatingUsers = () =>
     };
 };
 
+// propagating 10 users
 const propagateUser = [
 
     creatingUsers(),

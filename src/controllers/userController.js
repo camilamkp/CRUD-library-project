@@ -72,9 +72,15 @@ exports.create = (req, res) =>
 exports.oneUser = (req, res) =>
 {
     const { id } = req.params;
+
     const user = User.findById(id);
-    if(!user)throw new Error('not found');
-    res.status(200).json({
+
+    if(!user)
+    {
+        throw new Error('not found');
+    }
+
+    return res.status(200).json({
         success: true,
         data: user
     });
@@ -121,22 +127,72 @@ exports.update = (req, res) =>
 // DELETE :ID
 exports.delete = (req, res) =>
 {
-    
-}
-// POST
+    const { id } =req.params;
+    const user = User.findById(id);
+
+    if(id !== req.tokenUser)
+    {
+        return res.status(400).json({
+            success: false,
+            message: 'you are not authorized to proceed'
+        });
+    }
+    const deleteUser = User.deleteOne({ _id: id })
+    res.status(200).json({
+        success: true,
+        message: 'The ' + user.firstName + ' with the email ' + user.username + ' was successfully deleted.',
+        deleted: deleteUser
+    });
+};
+
+// POST createCookie
 exports.login = (req, res) =>
 {
     const { username, password } = req.body;
+    
+    User.findOne({ username }).then(userFound =>
+        {
+            if(userFound)
+            {
+                const token = jwt.sign({ username: userFound.username }, process.env.SECRET_TOKEN );
+                if(userFound.comparePassword(password))
+                {
+                    return res.cookie('access_token', token,
+                {
+                    httpOnly: true,
+                    maxAge: 24 * 60 * 60
+                })
+                .status(200)
+                .json({
+                    success: true,
+                    message: `Hello, '${ username }' you are logged in!`
+                });
+                }
+                else
+                {
+                    res.status(400).json({
+                        success: false,
+                        message: 'You are not logged in. Please enter a valid email or password.'
+                    });
+                }
+            }
+            else
+            {
+                res.status(400).json({
+                    success: false,
+                    message: 'Sign up to login'
+                });
+            }
+        });
+};
 
-    const token = jwt.sign({ username, password, admin: "true" }, process.env.SECRET_TOKEN);
-    return res.cookie('access_token', token,
-    {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60
-    })
-    .status(200)
-    .json({
+// POST clearCookie
+exports.logout = (req, res) =>
+{
+    return res.clearCookie('access_token')
+        .status(200)
+        .json({
         success: true,
-        message: 'User ' + username + ' eingeloggt!'
-    });
+        message: 'You are logged out, see you later!'
+    })
 };
