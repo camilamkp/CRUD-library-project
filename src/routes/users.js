@@ -10,6 +10,7 @@ const {
     create, 
     oneUser, 
     update,
+    del,
     login,
     logout 
 } = require('../controllers/userController.js');
@@ -23,7 +24,7 @@ router.route('/')
 router.route('/:id')
     .get(authUser, oneUser)
     .put(authUser, update)
-    .delete(authUser);
+    .delete(authUser, del);
 
 router.route('/login')
     .post(login);

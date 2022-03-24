@@ -1,13 +1,13 @@
 // const express = require('express');
 // const router = express.Router();
-// const multer = require('multer');
+// // const multer = require('multer');
 // // const { authUser, adminUser } = require('../middleware/userRoles.js');
 
-// const upload = multer(
-//     {
-//         limits:
-//         { fileSize: 50000000 }
-//     });
+// // const upload = multer(
+// //     {
+// //         limits:
+// //         { fileSize: 50000000 }
+// //     });
 
 // const {
 //     allBooks,
@@ -18,13 +18,13 @@
 // } = require('../controllers/booksController.js');
 
 // router.route('/')
-//     .get(allBooks)
-//     .post(upload.single('cover'), addBook );
-// //     .post(addBook);
+//     .get(authUser, allBooks)
+//     // .post(upload.single('cover'), addBook );
+//     .post(authUser, adminUser, addBook);
 
-// // router.route('/:id')
-// //     .get(oneBook)
-// //     .put(editBook)
-// //     .delete(deleteBook);
+// router.route('/:id')
+//     .get(authUser, oneBook)
+//     .put(authUser, adminUser, editBook)
+//     .delete(authUser, adminUser, deleteBook);
 
 // module.exports = router;

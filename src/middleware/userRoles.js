@@ -13,7 +13,7 @@ exports.authUser = (req, res, next) =>
     try
     {
         const verifyData = jwt.verify(token, process.env.SECRET_TOKEN);
-        req.tokenUser = verifyData.userId;
+        req.tokenUser = verifyData.username;
         next();
     }
     catch(e)
@@ -26,12 +26,12 @@ exports.authUser = (req, res, next) =>
 
 };
 
-// ein Problem hier zu lösen:
 exports.adminUser = (req, res, next) =>
 {
     try
     {
-        if(req.body.admin === true)
+        console.log(req.body.admin);
+        if(req.body.admin === 'true' )
         {
             console.log(req.body);
             next();

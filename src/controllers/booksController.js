@@ -1,8 +1,11 @@
+// const path = require('path');
 // const Book = require('../Models/Book.js');
 
 // // GET
 // exports.allBooks = (req, res) =>
 // {
+//     // res.status(200).sendFile(path.join(__dirname, '../../public/books.html'));
+
 //     Book.find( {}, (err, books) =>
 //     {
 //         if(err)
@@ -77,6 +80,36 @@
 // };
 
 // // GET :ID
-// // POST :ID
+// exports.oneBook = (req, res) =>
+// {
+//     const { id } = req.params;
+    
+//     Book.find({ _id :id }, (err, books) =>
+//     {
+//         if(err)
+//         {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: err.message
+//             });
+//         }
+//         return res.status(200).json({
+//             success: true,
+//             data: books
+//         });
+//     }); 
+// };
+
 // // PUT :ID
+// exports.editBook = (req, res)=>
+// {
+//     const { id } = req.params;
+    
+//     Book.findOne({ _id: id },( err, book) =>)
+// };
+
 // // DELETE :ID
+// exports.deleteBook = (req, res)=>
+// {
+
+// };
