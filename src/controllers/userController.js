@@ -51,13 +51,13 @@ exports.create = (req, res) =>
 
     newUser.password = newUser.hashPassword(password);
     const errors = validator.validationResult(req).errors;
-    console.log(errors);
+    // console.log(errors);
 
     if(errors.length > 0)
     {
         return res.status(400).json({ errors });
     }
-    console.log(newUser);
+    // console.log(newUser);
     newUser.save().then((user) =>
     {
         return res.status(200).json({
@@ -79,7 +79,7 @@ exports.oneUser = (req, res) =>
             return res.status(400).json({
                 success: false,
                 message: err.message
-            })
+            });
         }
         return res.status(200).json({
             success: true,
@@ -113,11 +113,11 @@ exports.update = (req, res) =>
         // es fehlt hier das password zu hashen
         users.password = req.body.password || users.password;
     });
-    users.save().then((user) =>
+    const updatedUser = User.findByIdAndUpdate(id).then((user) =>
     {
-        return res.status(200).json({
+        return res.status(200).send(updatedUser).json({
             success: true,
-            message: 'new user '+ firstName +' successfully updated',
+            message: 'the user was successfully updated',
             data: user
         });
     });
@@ -128,7 +128,6 @@ exports.del = (req, res) =>
 {
     const { id } = req.params;
     const user = User.findById(id);
-
     if(req.body.admin !== 'true')
     {
         return res.status(400).json({
@@ -136,11 +135,13 @@ exports.del = (req, res) =>
             message: 'you are not authorized to proceed'
         });
     }
-    const deleteUser = User.deleteOne({ _id: id });
-    res.status(200).json({
-        success: true,
-        message: 'The ' + user.firstName + ' with the email ' + user.username + ' was successfully deleted.',
-        deleted: deleteUser
+    const deleteUser = User.deleteOne({ _id: id }).then(deletedUser =>
+    {
+        res.status(200).json({
+            success: true,
+            message: 'The user was successfully deleted.',
+            deletedUser
+        });
     });
 };
 

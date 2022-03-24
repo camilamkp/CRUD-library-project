@@ -14,7 +14,7 @@ const userSchema = new Schema(
         username: { type: String, unique: true, required: true },
         password: { type: String, required: true },
         admin: { type: Boolean, default: false },
-        details: detailsSchema 
+        // details: detailsSchema 
     },
     { timestamps: true }
 );

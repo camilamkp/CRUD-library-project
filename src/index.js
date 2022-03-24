@@ -24,7 +24,7 @@ app.use(setCors);
 
 // routes
 app.use('/users', usersRouter);
-// app.use('/books', booksRouter);
+app.use('/books', booksRouter);
 // app.use('*', errors);
 // endpoints
 
